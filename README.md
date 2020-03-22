@@ -13,10 +13,10 @@ hosted by Netlify
 Make todos
 Delete todos
 Mark done todos
+sort done todos.
 
 ### feature to be done
 
 Sort todos from earliest added to least added
-sort done todos.
 
 Thanks for passing by, i appreciate it 🤓
