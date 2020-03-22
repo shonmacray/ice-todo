@@ -17,3 +17,10 @@ export const deleteTodoAction = id => {
     payload: id
   };
 };
+
+export const setAppState = state => {
+  return {
+    type: "SET_STATE",
+    payload: state
+  };
+};

@@ -1,9 +1,10 @@
 import { createStore, combineReducers } from "redux";
-import { appReducer } from "./reducer";
+import { appReducer, todoReducer } from "./reducer";
 
 const Store = createStore(
   combineReducers({
-    appReducer
+    appReducer,
+    todoReducer
   })
 );
 

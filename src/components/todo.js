@@ -2,9 +2,11 @@ import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { deleteTodoAction, toggleMarkTodoDone } from "../redux/actions";
 import MakeTodoField from "./subComponents/makeTodoField";
+import SortField from "./subComponents/sortFields";
 
 export default function Todo() {
-  const todos = useSelector(state => state.appReducer);
+  const todos = useSelector(state => state.todoReducer);
+  const app = useSelector(state => state.appReducer);
   const dispatch = useDispatch();
 
   const deleteTodo = id => {
@@ -30,33 +32,64 @@ export default function Todo() {
         <div className="col-6">
           <MakeTodoField todos={todos} />
           <div className="mt-3">
-            {todos.map(todo => (
-              <div
-                key={todo.id}
-                className="mb-3 d-flex justify-content-between flex-row align-items-center"
-              >
-                <h5 className={todo.done ? "w text-warning" : "w"}>
-                  {todo.todo}
-                </h5>
-                <div>
-                  <small
-                    className="mr-3 text-success"
-                    onClick={() => markDone(todo.id)}
+            {app === "NORMAL"
+              ? todos.map(todo => (
+                  <div
+                    key={todo.id}
+                    className="mb-3 d-flex justify-content-between flex-row align-items-center"
                   >
-                    Done
-                  </small>
-                  <button
-                    className="btn btn-light"
-                    onClick={() => deleteTodo(todo.id)}
-                  >
-                    <span aria-hidden="true">&times;</span>
-                  </button>
-                </div>
-              </div>
-            ))}
+                    <h5 className={todo.done ? "w text-warning" : "w"}>
+                      {todo.todo}
+                    </h5>
+                    <div>
+                      <small
+                        className="mr-3 text-success"
+                        onClick={() => markDone(todo.id)}
+                      >
+                        Done
+                      </small>
+                      <button
+                        className="btn btn-light"
+                        onClick={() => deleteTodo(todo.id)}
+                      >
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                  </div>
+                ))
+              : app === "SORT_FINISHED"
+              ? todos
+                  .filter(todo => todo.done === true)
+                  .map(todo => (
+                    <div
+                      key={todo.id}
+                      className="mb-3 d-flex justify-content-between flex-row align-items-center"
+                    >
+                      <h5 className={todo.done ? "w text-warning" : "w"}>
+                        {todo.todo}
+                      </h5>
+                      <div>
+                        <small
+                          className="mr-3 text-success"
+                          onClick={() => markDone(todo.id)}
+                        >
+                          Done
+                        </small>
+                        <button
+                          className="btn btn-light"
+                          onClick={() => deleteTodo(todo.id)}
+                        >
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                      </div>
+                    </div>
+                  ))
+              : null}
           </div>
         </div>
-        <div className="col-6"></div>
+        <div className="col-6">
+          <SortField />
+        </div>
       </div>
     </div>
   );

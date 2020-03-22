@@ -7,7 +7,7 @@ const todoState = [
   }
 ];
 
-export const appReducer = (state = todoState, action) => {
+export const todoReducer = (state = todoState, action) => {
   switch (action.type) {
     case "ADD_TODO":
       return [...state, { ...action.payload }];
@@ -24,6 +24,18 @@ export const appReducer = (state = todoState, action) => {
         todo.done = !todo.done;
       }
       return [...freshState];
+    default:
+      return state;
+  }
+};
+
+const appState = "NORMAL";
+
+export const appReducer = (state = appState, action) => {
+  switch (action.type) {
+    case "SET_STATE":
+      state = action.payload;
+      return state;
     default:
       return state;
   }
