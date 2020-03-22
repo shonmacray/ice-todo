@@ -1,5 +1,10 @@
 import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import {
+  addTodo,
+  deleteTodoAction,
+  toggleMarkTodoDone
+} from "../redux/actions";
 
 export default function Todo() {
   const [todo, setTodo] = useState("");
@@ -13,26 +18,27 @@ export default function Todo() {
     if (todo.trim() !== "") {
       let index = todos.length;
       index++;
-      dispatch({
-        type: "ADD_TODO",
-        payload: { id: index, todo }
-      });
+      dispatch(addTodo(index, todo));
       setTodo("");
     }
   };
   const deleteTodo = id => {
-    dispatch({
-      type: "DELETE_TODO",
-      payload: id
-    });
+    dispatch(deleteTodoAction(id));
+  };
+  const markDone = id => {
+    dispatch(toggleMarkTodoDone(id));
   };
   return (
     <div className="container">
-      <div class="mb-5">
-        <h1 class="display-4">Ice Todo</h1>
-        <p class="lead">
+      <div className="mb-5">
+        <h1 className="display-4">Ice Todo</h1>
+        <p className="lead">
           A simple todo application, written with react and redux,
-          <br /> by <strong>Shon Macray</strong>
+          <br /> by{" "}
+          <strong>
+            Shon Macray <span />
+            🧑🏽‍💻
+          </strong>
         </p>
       </div>
       <div className="row">
@@ -60,8 +66,16 @@ export default function Todo() {
                 key={todo.id}
                 className="mb-3 d-flex justify-content-between flex-row align-items-center"
               >
-                <h5 className="w-75">{todo.todo}</h5>
+                <h5 className={todo.done ? "w text-warning" : "w"}>
+                  {todo.todo}
+                </h5>
                 <div>
+                  <small
+                    className="mr-3 text-success"
+                    onClick={() => markDone(todo.id)}
+                  >
+                    Done
+                  </small>
                   <button
                     className="btn btn-light"
                     onClick={() => deleteTodo(todo.id)}
