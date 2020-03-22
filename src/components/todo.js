@@ -1,27 +1,12 @@
-import React, { useState } from "react";
+import React from "react";
 import { useSelector, useDispatch } from "react-redux";
-import {
-  addTodo,
-  deleteTodoAction,
-  toggleMarkTodoDone
-} from "../redux/actions";
+import { deleteTodoAction, toggleMarkTodoDone } from "../redux/actions";
+import MakeTodoField from "./subComponents/makeTodoField";
 
 export default function Todo() {
-  const [todo, setTodo] = useState("");
   const todos = useSelector(state => state.appReducer);
   const dispatch = useDispatch();
 
-  const handleSubmit = e => {
-    e.preventDefault();
-  };
-  const submitTodo = () => {
-    if (todo.trim() !== "") {
-      let index = todos.length;
-      index++;
-      dispatch(addTodo(index, todo));
-      setTodo("");
-    }
-  };
   const deleteTodo = id => {
     dispatch(deleteTodoAction(id));
   };
@@ -34,7 +19,7 @@ export default function Todo() {
         <h1 className="display-4">Ice Todo</h1>
         <p className="lead">
           A simple todo application, written with react and redux,
-          <br /> by{" "}
+          <br />
           <strong>
             Shon Macray <span />
             🧑🏽‍💻
@@ -43,23 +28,7 @@ export default function Todo() {
       </div>
       <div className="row">
         <div className="col-6">
-          <form onSubmit={handleSubmit} className="d-flex flex-row mb-3">
-            <textarea
-              placeholder="Write your todo"
-              value={todo}
-              onChange={text => setTodo(text.target.value)}
-              className="form-control col-6"
-            ></textarea>
-            <div className="ml-5">
-              <button
-                type="submit"
-                onClick={submitTodo}
-                className="btn btn-primary"
-              >
-                Submit
-              </button>
-            </div>
-          </form>
+          <MakeTodoField todos={todos} />
           <div className="mt-3">
             {todos.map(todo => (
               <div
